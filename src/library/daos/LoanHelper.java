@@ -9,7 +9,7 @@ import library.interfaces.entities.*;
 public class LoanHelper
   implements ILoanHelper 
 {
-  public ILoan makeLoan(IBook book, IMember borrower, Date borrowDate, Date dueDate, int loanID) {
-    return new Loan(book, borrower, borrowDate, dueDate, loanID);
+  public ILoan makeLoan(IBook book, IMember borrower, Date borrowDate, Date dueDate) {
+    return new Loan(book, borrower, borrowDate, dueDate);
   }
 }
