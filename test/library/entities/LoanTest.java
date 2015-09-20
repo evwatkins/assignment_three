@@ -1,69 +1,101 @@
 package library.entities;
 
 import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
+
+import java.util.Date;
+
+import library.interfaces.entities.ELoanState;
+import library.interfaces.entities.IBook;
+import library.interfaces.entities.IMember;
 
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+/**
+ * @author Evan Watkins
+ */
 public class LoanTest {
+  private IBook book;
+  private IMember borrower;
+  private Date borrowDate;
+  private Date dueDate;
+  private Loan loan;
 
   @Before
   public void setUp() throws Exception {
+    book = mock(IBook.class);
+    borrower = mock(IMember.class);
+    borrowDate = mock(Date.class);
+    dueDate = mock(Date.class);
+    
+    loan = new Loan(book, borrower, borrowDate, dueDate);
   }
-
+  
   @After
   public void tearDown() throws Exception {
   }
 
   @Test
   public void testLoan() {
-    fail("Not yet implemented"); // TODO
+    // arrange
+    
+    
+    // act
+    ELoanState result = loan.getCurrentState();
+    
+    // asserts
+    IBook actualBook = loan.getBook();
+    IMember actualBorrower = loan.getBorrower();
+    assertEquals(ELoanState.PENDING, result);
+    assertEquals(book, actualBook);
+    assertEquals(borrower, actualBorrower);
   }
 
   @Test
   public void testCommit() {
-    fail("Not yet implemented"); // TODO
+
   }
 
   @Test
   public void testComplete() {
-    fail("Not yet implemented"); // TODO
+
   }
 
   @Test
   public void testIsOverDue() {
-    fail("Not yet implemented"); // TODO
+
   }
 
   @Test
   public void testCheckOverDue() {
-    fail("Not yet implemented"); // TODO
+
   }
 
   @Test
   public void testGetBorrower() {
-    fail("Not yet implemented"); // TODO
+
   }
 
   @Test
   public void testGetBook() {
-    fail("Not yet implemented"); // TODO
+
   }
 
   @Test
   public void testGetID() {
-    fail("Not yet implemented"); // TODO
+
   }
 
   @Test
   public void testGetCurrentState() {
-    fail("Not yet implemented"); // TODO
+
   }
 
   @Test
   public void testToString() {
-    fail("Not yet implemented"); // TODO
+
   }
 
 }

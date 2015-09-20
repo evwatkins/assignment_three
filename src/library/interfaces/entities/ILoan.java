@@ -7,7 +7,7 @@ public interface ILoan {
 	public static final int LOAN_PERIOD = 14;
 	
 	
-	public void commit(int loanID);
+	public void commit(int id);
 	
 	public void complete();
 	
