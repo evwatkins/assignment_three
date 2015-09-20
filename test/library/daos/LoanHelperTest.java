@@ -5,7 +5,6 @@ import static org.mockito.Mockito.mock;
 
 import java.util.Date;
 
-import library.entities.Loan;
 import library.interfaces.entities.IBook;
 import library.interfaces.entities.IMember;
 

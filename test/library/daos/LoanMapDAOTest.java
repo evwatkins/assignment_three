@@ -84,5 +84,4 @@ public class LoanMapDAOTest {
   public void testFindOverDueLoans() {
 
   }
-
 }

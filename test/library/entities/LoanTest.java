@@ -1,7 +1,7 @@
 package library.entities;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.mock;
 
 import java.util.Date;
 
@@ -95,7 +95,5 @@ public class LoanTest {
 
   @Test
   public void testToString() {
-
   }
-
 }

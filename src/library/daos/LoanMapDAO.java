@@ -144,6 +144,4 @@ public class LoanMapDAO
 
     return Collections.unmodifiableList(list);
   }
-
-
 }
