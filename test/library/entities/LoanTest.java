@@ -3,10 +3,12 @@ package library.entities;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.mock;
 
+import java.util.Calendar;
 import java.util.Date;
 
 import library.interfaces.entities.ELoanState;
 import library.interfaces.entities.IBook;
+import library.interfaces.entities.ILoan;
 import library.interfaces.entities.IMember;
 
 import org.junit.After;
@@ -17,19 +19,25 @@ import org.junit.Test;
  * @author Evan Watkins
  */
 public class LoanTest {
-  private IBook book;
+	private IBook book;
   private IMember borrower;
-  private Date borrowDate;
-  private Date dueDate;
+  private Date borrowDate, dueDate, overdueDate;
   private Loan loan;
+  private Calendar date;
 
   @Before
   public void setUp() throws Exception {
     book = mock(IBook.class);
     borrower = mock(IMember.class);
-    borrowDate = mock(Date.class);
-    dueDate = mock(Date.class);
-    
+ 
+    date = Calendar.getInstance();
+    borrowDate = new Date();
+    date.setTime(borrowDate);
+    date.add(Calendar.DATE, ILoan.LOAN_PERIOD);
+    dueDate = date.getTime();
+    date.add(Calendar.DATE, ILoan.LOAN_PERIOD);
+    overdueDate = date.getTime();
+
     loan = new Loan(book, borrower, borrowDate, dueDate);
   }
   
