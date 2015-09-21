@@ -21,7 +21,8 @@ import org.junit.Test;
  */
 public class LoanTest {
 	private IBook book;
-	private IBook id;
+	@SuppressWarnings("unused")
+  private IBook id;
 	private IMember borrower;
 	private Date borrowDate, dueDate, currentDate;
 	private Loan loan;
@@ -180,11 +181,11 @@ public class LoanTest {
 
 	@Test
 	public void testGetCurrentState() {
-		ELoanState currentState = loan.getCurrentState();
+		loan.getCurrentState();
 		assertEquals(ELoanState.PENDING, loan.getCurrentState());
 				
 		loan.commit(5);
-		currentState = loan.getCurrentState();
+		loan.getCurrentState();
 		assertEquals(ELoanState.CURRENT, loan.getCurrentState());
 		
 		loan.checkOverDue(currentDate);
