@@ -26,7 +26,6 @@ public class LoanHelperTest {
   private Date borrowDate, dueDate;
   private Loan loan;
   private Calendar cal;
-	private Object LoanHelper;
 
   @Before
   public void setUp() throws Exception {
@@ -47,7 +46,7 @@ public class LoanHelperTest {
   }
 
   @Test
-  public void testParameterForValueTrue() {
+  public void testParametersNoNull() {
     // asserts
     assertNotNull(book);
     assertNotNull(borrower);
@@ -56,17 +55,11 @@ public class LoanHelperTest {
   }
   
   @Test
-  public void testMethodReturnsValue() {
-	// arrange
-	LoanHelper test = new LoanHelper();    
-	
-	// act
-	IBook actualBook = loan.getBook();
-	IMember actualBorrower = (IMember)borrower;
-	Date actualBorrowDate = Calendar.getInstance().getTime();
-	Date actualDueDate = Calendar.getInstance().getTime();
-	
-	// asserts
-	assertEquals(LoanHelper, test.makeLoan(actualBook, actualBorrower, actualBorrowDate, actualDueDate));
+  public void testValueOfParameters() {
+    // asserts
+    IBook actualBook = loan.getBook();
+    IMember actualBorrower = loan.getBorrower();
+    assertEquals(book, actualBook);
+    assertEquals(borrower, actualBorrower);
   }
 }

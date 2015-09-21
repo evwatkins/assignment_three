@@ -16,31 +16,34 @@ public class Loan
   private ELoanState state;
 
   // Details of the book to be taken out on loan
-  public Loan(IBook book, IMember borrower, Date borrowDate, Date dueDate) {
-    boolean loanDetails = (book != null && borrower != null && borrowDate != null && dueDate != null && borrowDate.compareTo(dueDate) <= 0);
-
-    if(!loanDetails) {
+  public Loan(IBook book, IMember borrower, Date borrowDate, Date returnDate) {
+    if(!sane(book, borrower, borrowDate, returnDate)) {
       throw new IllegalArgumentException("Error: Incorrect parameters entered. Please try again.");
     } 
     else {
       this.book = book;
       this.borrower = borrower;
       this.borrowDate = borrowDate;
-      this.dueDate = dueDate;
+      this.dueDate = returnDate;
       state = ELoanState.PENDING;
       return;
     }
   }
+  
+  // Return book
+  private boolean sane(IBook book, IMember borrower, Date borrowDate, Date returnDate)
+  {
+      return book != null && borrower != null && borrowDate != null && returnDate != null && borrowDate.compareTo(returnDate) <= 0;
+  }
 
   // Sets the current state of the loan to CURRENT
-  public void commit(int loanId)
-  {    
+  public void commit(int loanId) {    
     if(state != ELoanState.PENDING) {
       throw new RuntimeException("Error: The loans current state is not PENDING.");
     }
     if(loanId <= 0)
     {
-        throw new RuntimeException("Error: Loan ID must be positive.\n");
+      throw new RuntimeException("Error: Loan ID must be positive.\n");
     }
     else {
       id = loanId;
@@ -52,8 +55,7 @@ public class Loan
   }
 
   // Sets the current state of the loan to COMPLETE
-  public void complete()
-  {
+  public void complete() {
     if(state != ELoanState.CURRENT && state != ELoanState.OVERDUE) {
       throw new RuntimeException("Error: The loans current state is not CURRENT or OVERDUE.");
     } 
@@ -64,51 +66,48 @@ public class Loan
   }
 
   // Returns TRUE if the current state of the loan is OVERDUE
-  public boolean isOverDue()
-  {
+  public boolean isOverDue() {
+  	state = ELoanState.OVERDUE;
     return state == ELoanState.OVERDUE;
   }
 
   // Sets the current state of the loan to OVERDUE if currentDate is greater than dueDate
-  public boolean checkOverDue(Date currentDate)
-  {
+  public boolean checkOverDue(Date currentDate) {
     if(state != ELoanState.CURRENT && state != ELoanState.OVERDUE) {
       throw new RuntimeException("Error: The loans current state is not CURRENT or OVERDUE.");
     }
     
-    if(currentDate.compareTo(dueDate) > 0) {
+    else if(currentDate.compareTo(dueDate) > 0) {
       state = ELoanState.OVERDUE;
     }
     return isOverDue();
   }
 
   // Returns the borrower associated with the loan
-  public IMember getBorrower()
-  {
+  public IMember getBorrower() {
     return borrower;
   }
 
   // Returns the book associated with the loan
-  public IBook getBook()
-  {
+  public IBook getBook() {
     return book;
   }
 
   // Returns the book's unique ID
-  public int getID()
-  {
+  public int getID() {
     return id;
   }
 
-  public ELoanState getCurrentState()
-  {
+  //Returns the book's current state
+  public ELoanState getCurrentState() {
     return state;
   }
 
-  public String toString()
-  {
+  //Returns the details of the book
+  public String toString() {
     return String.format("Loan ID:  %d\nAuthor:   %s\nTitle:    %s\nBorrower: %s %s\nBorrowed: %s\nDue Date" + "e: %s", new Object[] {
-        Integer.valueOf(id), book.getAuthor(), book.getTitle(), borrower.getFirstName(), borrower.getLastName(), DateFormat.getDateInstance().format(borrowDate), DateFormat.getDateInstance().format(dueDate)
+        Integer.valueOf(id), book.getAuthor(), book.getTitle(), borrower.getFirstName(), borrower.getLastName(), 
+        DateFormat.getDateInstance().format(borrowDate), DateFormat.getDateInstance().format(dueDate)
     });
   }
 }
