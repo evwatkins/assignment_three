@@ -21,8 +21,7 @@ import org.junit.Test;
  */
 public class LoanTest {
 	private IBook book;
-	@SuppressWarnings("unused")
-  private IBook id;
+  public IBook id;
 	private IMember borrower;
 	private Date borrowDate, dueDate, currentDate;
 	private Loan loan;
@@ -205,7 +204,12 @@ public class LoanTest {
 		String borrowerLastName = "Watkins";
 		String bd = DateFormat.getDateInstance().format(borrowDate);
 		String dd = DateFormat.getDateInstance().format(dueDate);
-		String string = String.format("Loan ID:  %d\nAuthor:   %s\nTitle:    %s\nBorrower: %s %s\nBorrowed: %s\nDue Date: %s", 
+		String string = String.format("Loan ID:  %d\n"
+				+ "Author:   %s\n"
+				+ "Title of Book:    %s\n"
+				+ "Borrower's Name: %s %s\n"
+				+ "Date Borrowed: %s\n"
+				+ "Due Date: %s", 
 				id, author,title,borrowerFirstName, borrowerLastName, bd, dd);
 		
 		// assert

@@ -37,32 +37,7 @@ public class LoanMapDAO
       return;
     }
   }
-
-  public ILoan createLoan(IMember borrower, IBook book) {
-    if(borrower == null || book == null) {
-      throw new IllegalArgumentException("Error: Borrower and book cannot be null.");
-    } 
-    else {
-      Date borrowDate = new Date();
-      cal.setTime(borrowDate);
-      cal.add(5, 14);
-      Date dueDate = cal.getTime();
-
-      ILoan loan = helper.makeLoan(book, borrower, borrowDate, dueDate);
-      return loan;
-    }
-  }
-
-  public void commitLoan(ILoan loan) {
-    int id = getNextId();
-    loan.commit(id);
-    loanMap.put(Integer.valueOf(id), loan);
-  }
-
-  private int getNextId() {
-    return ++nextID;
-  }
- 
+  
   public ILoan getLoanByID(int id) {
     if(loanMap.containsKey(Integer.valueOf(id))) {
       return (ILoan)loanMap.get(Integer.valueOf(id));
@@ -86,12 +61,12 @@ public class LoanMapDAO
 
     return null;
   }
-
+  
   public List listLoans() {
     List list = new ArrayList(loanMap.values());
     return Collections.unmodifiableList(list);
   }
-
+  
   public List findLoansByBorrower(IMember borrower) {
     if(borrower == null) {
       throw new IllegalArgumentException("Error: borrower cannot be null.");
@@ -124,7 +99,7 @@ public class LoanMapDAO
 
     return Collections.unmodifiableList(list);
   }
-
+  
   public void updateOverDueStatus(Date currentDate) {
     ILoan loan;
     for(Iterator iterator = loanMap.values().iterator(); iterator.hasNext(); loan.checkOverDue(currentDate)) {
@@ -133,6 +108,10 @@ public class LoanMapDAO
 
   }
 
+  private int getNextId() {
+    return ++nextID;
+  }
+  
   public List findOverDueLoans() {
     List list = new ArrayList();
     for(Iterator iterator = loanMap.values().iterator(); iterator.hasNext();) {
@@ -143,5 +122,26 @@ public class LoanMapDAO
     }
 
     return Collections.unmodifiableList(list);
+  }
+  
+  public ILoan createLoan(IMember borrower, IBook book) {
+    if(borrower == null || book == null) {
+      throw new IllegalArgumentException("Error: Borrower and book cannot be null.");
+    } 
+    else {
+      Date borrowDate = new Date();
+      cal.setTime(borrowDate);
+      cal.add(5, 14);
+      Date dueDate = cal.getTime();
+
+      ILoan loan = helper.makeLoan(book, borrower, borrowDate, dueDate);
+      return loan;
+    }
+  }
+
+  public void commitLoan(ILoan loan) {
+    int id = getNextId();
+    loan.commit(id);
+    loanMap.put(Integer.valueOf(id), loan);
   }
 }

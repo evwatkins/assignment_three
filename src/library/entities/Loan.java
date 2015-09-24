@@ -105,7 +105,12 @@ public class Loan
 
   //Returns the details of the book
   public String toString() {
-    return String.format("Loan ID:  %d\nAuthor:   %s\nTitle:    %s\nBorrower: %s %s\nBorrowed: %s\nDue Date" + "e: %s", new Object[] {
+    return String.format("Loan ID:  %d\n"
+    		+ "Author:   %s\n"
+    		+ "Title of Book:    %s\n"
+    		+ "Borrower's Name: %s %s\n"
+    		+ "Date Borrowed: %s\n"
+    		+ "Due Date" + "e: %s", new Object[] {
         Integer.valueOf(id), book.getAuthor(), book.getTitle(), borrower.getFirstName(), borrower.getLastName(), 
         DateFormat.getDateInstance().format(borrowDate), DateFormat.getDateInstance().format(dueDate)
     });
