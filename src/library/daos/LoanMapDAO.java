@@ -105,10 +105,9 @@ public class LoanMapDAO
     for(Iterator iterator = loanMap.values().iterator(); iterator.hasNext(); loan.checkOverDue(currentDate)) {
       loan = (ILoan)iterator.next();
     }
-
   }
 
-  private int getNextId() {
+  private int getNextID() {
     return ++nextID;
   }
   
@@ -140,7 +139,7 @@ public class LoanMapDAO
   }
 
   public void commitLoan(ILoan loan) {
-    int id = getNextId();
+    int id = getNextID();
     loan.commit(id);
     loanMap.put(Integer.valueOf(id), loan);
   }
