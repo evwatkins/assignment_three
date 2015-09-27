@@ -18,7 +18,7 @@ public class Loan
   // Details of the book to be taken out on loan
   public Loan(IBook book, IMember borrower, Date borrowDate, Date returnDate) {
     if(!sane(book, borrower, borrowDate, returnDate)) {
-      throw new IllegalArgumentException("Error: Incorrect parameters entered. Please try again.");
+      throw new IllegalArgumentException("Error: Parameters are empty.");
     } 
     else {
       this.book = book;
