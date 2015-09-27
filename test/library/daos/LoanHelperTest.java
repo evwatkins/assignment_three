@@ -56,9 +56,11 @@ public class LoanHelperTest {
   
   @Test
   public void testValueOfParameters() {
-    // asserts
+    // act
     IBook actualBook = loan.getBook();
     IMember actualBorrower = loan.getBorrower();
+    
+    // asserts
     assertEquals(book, actualBook);
     assertEquals(borrower, actualBorrower);
   }
