@@ -51,15 +51,19 @@ public class LoanTest {
 
 	@Test
 	public void testLoanParametersNotNull() {
+		// act
+		IBook actualBook = loan.getBook();
+		IMember actualBorrower = loan.getBorrower();
+		
 		// asserts
-		assertNotNull(book);
-		assertNotNull(borrower);
+		assertNotNull(actualBook);
+		assertNotNull(actualBorrower);
 		assertNotNull(borrowDate);
 		assertNotNull(dueDate);
 	}
 
 	@Test(expected=AssertionError.class)
-	public void testLoanParametersNull() {
+	public void testLoanParametersAreNull() {
 		// asserts
 		assertNull(book);
 		assertNull(borrower);
@@ -97,28 +101,24 @@ public class LoanTest {
 		ELoanState startState = loan.getCurrentState();
 		int id = 5;
 		loan.commit(id);
+		int actualId = loan.getID();
 		ELoanState endState = loan.getCurrentState();
 		
 		// assert
 		assertEquals(ELoanState.PENDING, startState);
-		int actualId = loan.getID();
-		assertEquals(id, actualId);
 		assertEquals(ELoanState.CURRENT, endState);
+		assertEquals(id, actualId);
 	}
 	
 	@Test(expected=RuntimeException.class)
 	public void testCommitWithNegativeID() {
 		// act
-		ELoanState startState = loan.getCurrentState();
 		int id = -5;
 		loan.commit(id);
-		ELoanState endState = loan.getCurrentState();
+		int actualId = loan.getID();
 		
 		// assert
-		assertEquals(ELoanState.PENDING, startState);
-		int actualId = loan.getID();
 		assertEquals(id, actualId);
-		assertEquals(ELoanState.CURRENT, endState);
 	}
 
 	@Test
@@ -134,18 +134,27 @@ public class LoanTest {
 	@Test
 	public void testIsOverDue() {
 		// act
-		loan.commit(5);
 		boolean state = loan.isOverDue();
 		
 		// assert
 		assertTrue(state);
 	}
 
+	@Test(expected=RuntimeException.class)
+	public void testCheckOverDueError() {
+		// act
+		loan.complete();
+		loan.checkOverDue(currentDate);
+		
+		// assert
+		assertEquals(ELoanState.COMPLETE, loan.getCurrentState());
+	}
+	
 	@Test
 	public void testCheckOverDue() {
 		// act
-		loan.commit(5);
 		loan.isOverDue();
+		loan.checkOverDue(currentDate);
 		
 		// assert
 		assertEquals(ELoanState.OVERDUE, loan.getCurrentState());
@@ -180,11 +189,9 @@ public class LoanTest {
 
 	@Test
 	public void testGetCurrentState() {
-		loan.getCurrentState();
 		assertEquals(ELoanState.PENDING, loan.getCurrentState());
 				
 		loan.commit(5);
-		loan.getCurrentState();
 		assertEquals(ELoanState.CURRENT, loan.getCurrentState());
 		
 		loan.checkOverDue(currentDate);
@@ -195,7 +202,7 @@ public class LoanTest {
 	}
 
 	@Test
-	public void testToString() {
+	public void testToStringNotNull() {
 		// act
 		int id = 0;
 		String author = "John Doe";
