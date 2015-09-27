@@ -32,8 +32,7 @@ public class LoanMapDAOTest {
 	private IMember borrower;
 	private Calendar date;
   
-  private ELoanState state;
-	private ILoanHelper helper = mock(ILoanHelper.class);
+  private ILoanHelper helper;
 
   @Before
   public void setUp() throws Exception {
@@ -41,6 +40,7 @@ public class LoanMapDAOTest {
 		borrower = mock(IMember.class);
 		id = mock(IBook.class);
 		loanMap = mock(Map.class);
+		helper = mock(ILoanHelper.class);
 		
 		date = Calendar.getInstance();
 		borrowDate = new Date();
@@ -51,7 +51,7 @@ public class LoanMapDAOTest {
 		date.add(Calendar.DATE, ILoan.LOAN_PERIOD);
 		currentDate = date.getTime();
 		
-    loanMapDAO = new LoanMapDAO(helper, loanMap);
+		loanMapDAO = new LoanMapDAO(helper, loanMap);
     loan = new Loan(book, borrower, borrowDate, dueDate);
   }
 
@@ -59,10 +59,14 @@ public class LoanMapDAOTest {
   public void tearDown() throws Exception {
   }
   
-  @Test(expected=AssertionError.class)
-  public void testHelperIsNotNull() {
+  @Test(expected=RuntimeException.class)
+  public void testHelperIsNull() {
+  	// act
+  	helper = null;
+  	new LoanMapDAO(helper);
+  	
   	// asserts
-  	assertNotNull(helper = null);
+  	assertNull(helper);
   }
 
   @Test
