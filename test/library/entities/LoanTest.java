@@ -153,11 +153,14 @@ public class LoanTest {
 	@Test
 	public void testCheckOverDue() {
 		// act
-		loan.isOverDue();
+		ELoanState state = loan.getCurrentState();
+		int id = 5;
+		loan.commit(id);
 		loan.checkOverDue(currentDate);
 		
 		// assert
-		assertEquals(ELoanState.OVERDUE, loan.getCurrentState());
+		assertNotEquals(dueDate, currentDate);
+		assertNotEquals(ELoanState.OVERDUE, state);
 	}
 
 	@Test
@@ -189,6 +192,7 @@ public class LoanTest {
 
 	@Test
 	public void testGetCurrentState() {
+		// act and assert
 		assertEquals(ELoanState.PENDING, loan.getCurrentState());
 				
 		loan.commit(5);
