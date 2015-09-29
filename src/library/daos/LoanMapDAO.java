@@ -10,7 +10,7 @@ public class LoanMapDAO
   implements ILoanDAO 
 {
   private int nextID;
-  private Map loanMap;
+  private Map<Integer, ILoan> loanMap;
   private ILoanHelper helper;
   private Calendar cal;
 
@@ -21,14 +21,15 @@ public class LoanMapDAO
     else {
       nextID = 0;
       this.helper = helper;
-      loanMap = new HashMap();
+      loanMap = new HashMap<Integer, ILoan>();
       cal = Calendar.getInstance();
       return;
     }
   }
 
-  public LoanMapDAO(ILoanHelper helper, Map loanMap) {
+  public LoanMapDAO(ILoanHelper helper, Map<Integer, ILoan> loanMap) {
     this(helper);
+    
     if(loanMap == null) {
       throw new IllegalArgumentException("Error: LoanMap cannot be null.");
     } 
@@ -51,77 +52,73 @@ public class LoanMapDAO
     if(book == null) {
       throw new IllegalArgumentException("Error: Book cannot be null.");
     }
-    for(Iterator iterator = loanMap.values().iterator(); iterator.hasNext();) {
-      ILoan loan = (ILoan)iterator.next();
+    
+    for(ILoan loan : loanMap.values()) {
       IBook tempBook = loan.getBook();
       if(book.equals(tempBook)) {
         return loan;
       }
     }
-
     return null;
   }
   
-  public List listLoans() {
-    List list = new ArrayList(loanMap.values());
-    return Collections.unmodifiableList(list);
-  }
+	public List<ILoan> listLoans() {
+		List<ILoan> list = new ArrayList<ILoan>(loanMap.values());
+		return Collections.unmodifiableList(list);
+	}
   
-  public List findLoansByBorrower(IMember borrower) {
-    if(borrower == null) {
-      throw new IllegalArgumentException("Error: borrower cannot be null.");
-    }
-    
-    List list = new ArrayList();
-    
-    for(Iterator iterator = loanMap.values().iterator(); iterator.hasNext();) {
-      ILoan loan = (ILoan)iterator.next();
-      if(borrower.equals(loan.getBorrower())) {
-        list.add(loan);
-      }
-    }
+	public List<ILoan> findLoansByBorrower(IMember borrower) {
+		if (borrower == null ) {
+			throw new IllegalArgumentException(
+				String.format("LoanMapDAO : findLoansByBorrower : borrower cannot be null."));
+		}
+		
+		List<ILoan> list = new ArrayList<ILoan>();
+		
+		for (ILoan loan : loanMap.values()) {
+			if (borrower.equals(loan.getBorrower())) {
+				list.add(loan);
+			}
+		}
+		return Collections.unmodifiableList(list);
+	}
 
-    return Collections.unmodifiableList(list);
-  }
-
-  public List findLoansByBookTitle(String title) {
-    if(title == null || title.isEmpty()) {
-      throw new IllegalArgumentException("Error: Title cannot be null or blank.");
-    }
-    List list = new ArrayList();
-    for(Iterator iterator = loanMap.values().iterator(); iterator.hasNext();) {
-      ILoan loan = (ILoan)iterator.next();
-      String tempTitle = loan.getBook().getTitle();
-      if(title.equals(tempTitle)) {
-        list.add(loan);
-      }
-    }
-
-    return Collections.unmodifiableList(list);
-  }
+	public List<ILoan> findLoansByBookTitle(String title) {
+		if (title == null || title.isEmpty()) {
+			throw new IllegalArgumentException(
+				String.format("LoanMapDAO : findLoansByBookTitle : title cannot be null or blank."));
+		}
+		
+		List<ILoan> list = new ArrayList<ILoan>();
+		
+		for (ILoan loan : loanMap.values()) {
+			String tempTitle = loan.getBook().getTitle();
+			if (title.equals(tempTitle)) {
+				list.add(loan);
+			}
+		}
+		return Collections.unmodifiableList(list);
+	}
   
-  public void updateOverDueStatus(Date currentDate) {
-    ILoan loan;
-    for(Iterator iterator = loanMap.values().iterator(); iterator.hasNext(); loan.checkOverDue(currentDate)) {
-      loan = (ILoan)iterator.next();
-    }
-  }
+	public void updateOverDueStatus(Date currentDate) {
+		for (ILoan loan : loanMap.values()) {
+			loan.checkOverDue(currentDate);
+		}
+	}
 
   private int getNextID() {
     return ++nextID;
   }
   
-  public List findOverDueLoans() {
-    List list = new ArrayList();
-    for(Iterator iterator = loanMap.values().iterator(); iterator.hasNext();) {
-      ILoan loan = (ILoan)iterator.next();
-      if(loan.isOverDue()) {
-        list.add(loan);
-      }
-    }
-
-    return Collections.unmodifiableList(list);
-  }
+	public List<ILoan> findOverDueLoans() {
+		List<ILoan> list = new ArrayList<ILoan>();
+		for (ILoan loan : loanMap.values()) {
+			if (loan.isOverDue()) {
+				list.add(loan);
+			}
+		}
+		return Collections.unmodifiableList(list);
+	}
   
   public ILoan createLoan(IMember borrower, IBook book) {
     if(borrower == null || book == null) {

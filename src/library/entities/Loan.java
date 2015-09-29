@@ -25,7 +25,7 @@ public class Loan
       this.borrower = borrower;
       this.borrowDate = borrowDate;
       this.dueDate = returnDate;
-      state = ELoanState.PENDING;
+      this.state = ELoanState.PENDING;
       return;
     }
   }
@@ -38,7 +38,7 @@ public class Loan
 
   // Sets the current state of the loan to CURRENT
   public void commit(int loanId) {    
-    if(state != ELoanState.PENDING) {
+    if(!(state == ELoanState.PENDING)) {
       throw new RuntimeException("Error: The loans current state is not PENDING.");
     }
     if(loanId <= 0)
@@ -56,7 +56,7 @@ public class Loan
 
   // Sets the current state of the loan to COMPLETE
   public void complete() {
-    if(state != ELoanState.CURRENT && state != ELoanState.OVERDUE) {
+    if(!(state == ELoanState.CURRENT || state == ELoanState.OVERDUE)) {
       throw new RuntimeException("Error: The loans current state is not CURRENT or OVERDUE.");
     } 
     else {
@@ -73,7 +73,7 @@ public class Loan
 
   // Sets the current state of the loan to OVERDUE if currentDate is greater than dueDate
   public boolean checkOverDue(Date currentDate) {
-    if(state != ELoanState.CURRENT && state != ELoanState.OVERDUE) {
+    if(!(state == ELoanState.CURRENT || state == ELoanState.OVERDUE)) {
       throw new RuntimeException("Error: The loans current state is not CURRENT or OVERDUE.");
     }
     

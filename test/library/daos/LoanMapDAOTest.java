@@ -34,6 +34,7 @@ public class LoanMapDAOTest {
   
   private ILoanHelper helper;
 
+  @SuppressWarnings("unchecked")
   @Before
   public void setUp() throws Exception {
 		book = mock(IBook.class);
