@@ -51,7 +51,7 @@ public class LoanTest {
 
 	@Test
 	public void testLoanParametersNotNull() {
-		// act
+		// setup
 		IBook actualBook = loan.getBook();
 		IMember actualBorrower = loan.getBorrower();
 		
@@ -73,7 +73,7 @@ public class LoanTest {
 	
 	@Test
 	public void testLoanCurrentStateOfLoan() {
-		// act
+		// setup
 		ELoanState currentState = loan.getCurrentState();
 
 		// asserts
@@ -82,7 +82,7 @@ public class LoanTest {
 
 	@Test
 	public void testLoanParameterValues() {
-		// act
+		// setup
 		IBook actualBook = loan.getBook();
 		IMember actualBorrower = loan.getBorrower();
 		Date actualBorrowDate = borrowDate;
@@ -97,7 +97,7 @@ public class LoanTest {
 
 	@Test
 	public void testCommitWithPositiveID() {
-		// act
+		// setup
 		ELoanState startState = loan.getCurrentState();
 		int id = 5;
 		loan.commit(id);
@@ -112,7 +112,7 @@ public class LoanTest {
 	
 	@Test(expected=RuntimeException.class)
 	public void testCommitWithNegativeID() {
-		// act
+		// setup
 		int id = -5;
 		loan.commit(id);
 		int actualId = loan.getID();
@@ -123,7 +123,7 @@ public class LoanTest {
 
 	@Test
 	public void testCompleteState() {
-		// act
+		// setup
 		loan.commit(5);
 		loan.complete();
 		
@@ -133,7 +133,7 @@ public class LoanTest {
 
 	@Test
 	public void testIsOverDue() {
-		// act
+		// setup
 		boolean state = loan.isOverDue();
 		
 		// assert
@@ -142,7 +142,7 @@ public class LoanTest {
 
 	@Test(expected=RuntimeException.class)
 	public void testCheckOverDueError() {
-		// act
+		// setup
 		loan.complete();
 		loan.checkOverDue(currentDate);
 		
@@ -152,7 +152,7 @@ public class LoanTest {
 	
 	@Test
 	public void testCheckOverDue() {
-		// act
+		// setup
 		ELoanState state = loan.getCurrentState();
 		int id = 5;
 		loan.commit(id);
@@ -165,7 +165,7 @@ public class LoanTest {
 
 	@Test
 	public void testGetBorrower() {
-		// act
+		// setup
 		IMember actualBorrower = loan.getBorrower();
 	
 		// assert
@@ -174,7 +174,7 @@ public class LoanTest {
 
 	@Test
 	public void testGetBook() {
-		// act
+		// setup
 		IBook actualBook = loan.getBook();
 		
 		// assert
@@ -183,7 +183,7 @@ public class LoanTest {
 
 	@Test
 	public void testGetID() {
-		// act
+		// setup
 		int actualID = loan.getID();
 		
 		// assert
@@ -192,7 +192,7 @@ public class LoanTest {
 
 	@Test
 	public void testGetCurrentState() {
-		// act and assert
+		// setup and assert
 		assertEquals(ELoanState.PENDING, loan.getCurrentState());
 				
 		loan.commit(5);
@@ -207,21 +207,21 @@ public class LoanTest {
 
 	@Test
 	public void testToStringNotNull() {
-		// act
+		// setup
 		int id = 0;
 		String author = "John Doe";
 		String title = "Test Book";
 		String borrowerFirstName = "Evan";
 		String borrowerLastName = "Watkins";
-		String bd = DateFormat.getDateInstance().format(borrowDate);
-		String dd = DateFormat.getDateInstance().format(dueDate);
+		String bDate = DateFormat.getDateInstance().format(borrowDate);
+		String dDate = DateFormat.getDateInstance().format(dueDate);
 		String string = String.format("Loan ID:  %d\n"
 				+ "Author:   %s\n"
 				+ "Title of Book:    %s\n"
 				+ "Borrower's Name: %s %s\n"
 				+ "Date Borrowed: %s\n"
 				+ "Due Date: %s", 
-				id, author,title,borrowerFirstName, borrowerLastName, bd, dd);
+				id, author,title,borrowerFirstName, borrowerLastName, bDate, dDate);
 		
 		// assert
 		assertNotNull(string);

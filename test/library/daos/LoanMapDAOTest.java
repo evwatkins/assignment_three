@@ -62,7 +62,7 @@ public class LoanMapDAOTest {
   
   @Test(expected=RuntimeException.class)
   public void testHelperIsNull() {
-  	// act
+  	// setup
   	helper = null;
   	new LoanMapDAO(helper);
   	
@@ -81,7 +81,7 @@ public class LoanMapDAOTest {
 
   @Test
   public void testGetLoanByID() {
-  	// act
+  	// setup
   	int id = 10;
   	loanMapDAO.getLoanByID(id);
   	
@@ -91,7 +91,7 @@ public class LoanMapDAOTest {
   
   @Test(expected=RuntimeException.class)
   public void testGetLoanByBookIfBookIsNull() {
-  	// act
+  	// setup
   	book = null;
   	loanMapDAO.getLoanByBook(book);
   	
@@ -101,7 +101,7 @@ public class LoanMapDAOTest {
   
   @Test
   public void testGetLoanByBook() {
-  	// act
+  	// setup
   	loanMapDAO.getLoanByBook(book);
   	IBook tempBook = loan.getBook();
   	
@@ -111,7 +111,7 @@ public class LoanMapDAOTest {
   
   @Test(expected=RuntimeException.class)
   public void testFindLoansByBorrowerIfBorrowerIsNull() {
-  	// act
+  	// setup
   	borrower = null;
   	loanMapDAO.findLoansByBorrower(borrower);
   	
@@ -121,7 +121,7 @@ public class LoanMapDAOTest {
   
   @Test
   public void testFindLoansByBorrower() {
-  	// act
+  	// setup
   	loanMapDAO.findLoansByBorrower(borrower);
   	
   	// assert
@@ -130,7 +130,7 @@ public class LoanMapDAOTest {
 
   @Test(expected=RuntimeException.class)
   public void testFindLoansByBookTitleIfTitleEmpty() {
-  	// act
+  	// setup
   	String title = null;
   	loanMapDAO.findLoansByBookTitle(title);
   	
@@ -140,7 +140,7 @@ public class LoanMapDAOTest {
   
   @Test
   public void testFindLoansByBookTitle() {
-  	// act
+  	// setup
   	String title = book.getTitle();
   	String tempTitle = loan.getBook().getTitle();
   	
@@ -150,7 +150,7 @@ public class LoanMapDAOTest {
   
   @Test
   public void testUpdateOverDueStatus() {
-  	// act
+  	// setup
   	loan.commit(1);
 		loan.isOverDue();
 		boolean overDue = loan.checkOverDue(currentDate);
@@ -161,7 +161,7 @@ public class LoanMapDAOTest {
   
   @Test
   public void testGetNextID() {
-		// act
+		// setup
 		int actualID = loan.getID();
 		
 		// assert
@@ -170,7 +170,7 @@ public class LoanMapDAOTest {
 
   @Test(expected=RuntimeException.class)
   public void testCreateLoanNullBorrower() {
-  	// act
+  	// setup
   	borrower = null;
   	IBook book1 = book;
   	loanMapDAO.createLoan(borrower, book);
@@ -182,7 +182,7 @@ public class LoanMapDAOTest {
 
   @Test(expected=RuntimeException.class)
   public void testCreateLoanNullBook() {
-  	// act
+  	// setup
   	IMember borrower1 = borrower;
   	book = null;
   	loanMapDAO.createLoan(borrower, book);
@@ -194,7 +194,7 @@ public class LoanMapDAOTest {
   
   @Test
   public void testCommitLoan() {
-  	// act
+  	// setup
   	loanMapDAO.commitLoan(loan);
     int id = 1;
   	
